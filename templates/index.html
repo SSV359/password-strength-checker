@@ -2,14 +2,114 @@
 <html>
 <head>
     <title>Password Strength Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background: #f4f6fc;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 420px;
+            margin: 80px auto;
+            padding: 32px 28px 28px 28px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(60,70,130,0.12);
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 24px;
+            color: #364e96;
+            text-align: center;
+            font-weight: 600;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 12px;
+            border: 1.5px solid #a6b8e0;
+            border-radius: 7px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #364e96;
+        }
+        button {
+            padding: 11px 0;
+            background: linear-gradient(90deg, #5a7de7 60%, #364e96 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: background 0.22s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #364e96 60%, #5a7de7 100%);
+        }
+        .result, .suggestion {
+            margin-top: 22px;
+            padding: 16px;
+            background: #eaf1ff;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #284175;
+        }
+        .suggestion {
+            background: #fff7e6;
+            color: #88661c;
+        }
+        .password-field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .password-field input {
+            flex: 1;
+        }
+        @media (max-width: 500px) {
+            .container {
+                margin: 24px 7px;
+                padding: 18px 8px 16px 8px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Password Strength Checker</h1>
-    <form method="POST">
-        <input type="text" name="password" placeholder="Enter your password">
-        <button type="submit">Check</button>
-    </form>
-    <p><strong>Strength:</strong> {{ strength }}</p>
-    <p><strong>Tip:</strong> {{ tip }}</p>
+    <div class="container">
+        <h1>Password Strength Checker 🔒</h1>
+        <form method="POST">
+            <div class="password-field">
+                <input type="text" name="password" placeholder="Enter your password" autocomplete="off" />
+            </div>
+            <button type="submit">Check Strength</button>
+            <button type="submit" name="suggest" style="background: #ffd600; color: #284175;">AI Suggest Password</button>
+        </form>
+        {% if strength %}
+            <div class="result">
+                <strong>Strength:</strong> {{ strength }}<br>
+                {{ tip }}
+            </div>
+        {% endif %}
+        {% if suggestion %}
+            <div class="suggestion">
+                <strong>AI Suggested Password:</strong><br>
+                <span style="font-family:monospace;font-size:1.2em;">{{ suggestion }}</span><br>
+                {{ suggestion_tip }}
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>
